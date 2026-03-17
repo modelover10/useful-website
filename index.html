@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>朝花夕拾·文案记</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto Serif+SC:wght@400,500,600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  .title-font{font-family:"Noto Serif SC",serif;font-weight:500;letter-spacing:.2em}
+  .body-font{font-family:"Noto Serif SC",serif;font-weight:400;letter-spacing:.05em}
+  .start-page{position:fixed;inset:0;background:linear-gradient(180deg,#fdfbf7 0%,#f5f0e8 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;padding:0 20px}
+  .start-title{font-size:32px;margin-bottom:24px;color:#2c2c2c}
+  .start-desc{font-size:15px;color:#666;text-align:center;line-height:1.9;max-width:540px;margin-bottom:40px}
+  .enter-btn{padding:14px 36px;border-radius:50px;border:1px solid #ddd;background:rgba(255,255,255,.6);font-size:15px;cursor:pointer;transition:.3s}
+  .enter-btn:hover{background:#fff;transform:translateY(-2px)}
+  .theme-page{position:fixed;inset:0;background:#f9f7f4;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;z-index:9998}
+  .theme-title{font-size:26px;margin-bottom:30px}
+  .theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;width:100%;max-width:700px}
+  .theme-item{background:#fff;border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;transition:.3s}
+  .theme-item:hover{transform:translateY(-4px)}
+  .theme-icon{font-size:32px;margin-bottom:8px}
+  .theme-name{font-size:16px;margin-bottom:4px}
+  .theme-tip{font-size:12px;color:#888}
+  .t-daisy{border-top:3px solid #f6e58d}
+  .t-sunflower{border-top:3px solid #f9c74f}
+  .t-iris{border-top:3px solid #7e7ce8}
+  .t-lily{border-top:3px solid #dff9fb}
+  .t-chamomile{border-top:3px solid #badc58}
+  .main-page{display:none;min-height:100vh;padding:60px 20px;background-size:cover;background-position:center;background-attachment:fixed}
+  .container{max-width:700px;margin:0 auto;position:relative;z-index:2}
+  .main-page.daisy{background:linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.7)),url(https://picsum.photos/id/141/1600/900)}
+  .main-page.sunflower{background:linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.7)),url(https://picsum.photos/id/143/1600/900)}
+  .main-page.iris{background:linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.7)),url(https://picsum.photos/id/142/1600/900)}
+  .main-page.lily{background:linear-gradient(rgba(255,255,255,.8),rgba(255,255,255,.8)),url(https://picsum.photos/id/144/1600/900)}
+  .main-page.chamomile{background:linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.75)),url(https://picsum.photos/id/145/1600/900)}
+  .card{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-radius:20px;padding:50px 30px;text-align:center;margin:30px 0;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+  #sentence{font-size:22px;line-height:2}
+  .search{width:100%;padding:14px 18px;border-radius:14px;border:1px solid #ddd;background:rgba(255,255,255,.8);font-size:15px;margin-bottom:6px}
+  .search-tip{font-size:12px;color:#888;margin-bottom:8px;text-align:center}
+  .search-hot{font-size:11px;color:#aaa;text-align:center;margin-bottom:20px}
+  .btn-group{display:flex;gap:12px;justify-content:center;margin-bottom:30px}
+  .btn{padding:12px 22px;border-radius:12px;border:none;background:rgba(255,255,255,.8);cursor:pointer;font-size:14px}
+  .tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:20px}
+  .tag{padding:6px 14px;background:rgba(255,255,255,.7);border-radius:30px;font-size:13px;cursor:pointer}
+  .tag.active{background:#fff;font-weight:bold}
+  .collection{background:rgba(255,255,255,.8);border-radius:14px;padding:16px;max-height:200px;overflow-y:auto}
+  .coll-item{padding:6px 10px;font-size:14px}
+  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);color:#fff;padding:8px 16px;border-radius:8px;font-size:14px;opacity:0;transition:.3s;z-index:999}
+  .toast.show{opacity:1}
+  .ancient-style{margin-bottom:20px;text-align:center}
+  .ancient-style label{margin:0 8px;font-size:14px;color:#666}
+  .ancient-style select{padding:6px 10px;border-radius:8px;border:1px solid #ddd;background:rgba(255,255,255,.8);font-size:14px}
+</style>
+</head>
+<body>
+
+<div class="start-page" id="start">
+  <h1 class="start-title title-font">朝花夕拾·文案记</h1>
+  <p class="start-desc body-font">这里是为生活收集温柔的文案小站，帮您把日常瞬间写成走心朋友圈。<br>一句治愈，一段心事，拾起细碎美好，让每一次分享都有温度、有故事。</p>
+  <button class="enter-btn body-font" id="goTheme">进入小站</button>
+</div>
+
+<div class="theme-page" id="theme">
+  <h2 class="theme-title title-font">选择您的风格主题</h2>
+  <div class="theme-grid">
+    <div class="theme-item t-daisy" data-theme="daisy"><div class="theme-icon">🌼</div><div class="theme-name title-font">小雏菊</div><div class="theme-tip body-font">温柔治愈</div></div>
+    <div class="theme-item t-sunflower" data-theme="sunflower"><div class="theme-icon">🌻</div><div class="theme-name title-font">向日葵</div><div class="theme-tip body-font">明亮温暖</div></div>
+    <div class="theme-item t-iris" data-theme="iris"><div class="theme-icon">💜</div><div class="theme-name title-font">紫鸢尾</div><div class="theme-tip body-font">优雅沉静</div></div>
+    <div class="theme-item t-lily" data-theme="lily"><div class="theme-icon">🤍</div><div class="theme-name title-font">铃兰</div><div class="theme-tip body-font">简约干净</div></div>
+  </div>
+</div>
+
+<div class="main-page" id="main">
+  <div class="container">
+    <h1 class="title-font" style="text-align:center; margin-bottom:10px;">朝花夕拾·文案记</h1>
+    <p style="text-align:center; font-size:14px; color:#555; margin-bottom:24px;" class="body-font">温柔 · 治愈 · 高级</p>
+
+    <input type="text" class="search body-font" id="search" placeholder="输入关键词或情绪">
+    <p class="search-tip body-font">可点击“随机一句”，或输入提示词 点击“AI 生成”</p>
+    <p class="search-hot body-font">热门关键词：微醺 | 朋友 | 健身 | 猫 | 上学 | 青春 | 自律 | 官宣 | 职场 | 月亮 | 江南 | 相思</p>
+
+    <div class="ancient-style">
+      <label>古言风格：</label>
+      <select id="ancientStyle">
+        <option value="modern">现代文案</option>
+        <option value="five">五言诗</option>
+        <option value="seven">七言诗</option>
+        <option value="sentence">长短句</option>
+        <option value="huajian">花间词</option>
+      </select>
+    </div>
+
+    <div class="tags">
+      <div class="tag active body-font" data-tag="all">全部</div>
+      <div class="tag body-font" data-tag="daisy">🌼 治愈</div>
+      <div class="tag body-font" data-tag="sunflower">🌻 温暖</div>
+      <div class="tag body-font" data-tag="iris">💜 心事</div>
+      <div class="tag body-font" data-tag="lily">🤍 安静</div>
+      <div class="tag body-font" data-tag="chamomile">🌿 成长</div>
+      <div class="tag body-font" data-tag="shechu">🔥 社畜</div>
+    </div>
+
+    <div class="card"><p id="sentence" class="title-font">风慢慢吹，日子慢慢过。</p></div>
+
+    <div class="btn-group">
+      <button class="btn body-font" id="random">🎲 随机一句</button>
+      <button class="btn body-font" id="aiGenerate">🤖 AI 生成</button>
+      <button class="btn body-font" id="copy">📋 复制</button>
+      <button class="btn body-font" id="star">⭐ 收藏</button>
+    </div>
+
+    <div class="collection" id="collection"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// 页面切换
+const start = document.getElementById('start');
+const theme = document.getElementById('theme');
+const main = document.getElementById('main');
+document.getElementById('goTheme').onclick = () => { start.style.display='none'; theme.style.display='flex'; }
+document.querySelectorAll('.theme-item').forEach(el=>{
+  el.onclick = () => {
+    main.className='main-page '+el.dataset.theme;
+    theme.style.display='none'; main.style.display='block'; rand();
+  }
+})
+
+// 本地文案库（大幅扩容）
+const sentences = {
+  all:["风慢慢吹，日子慢慢过。","不必急，生活自有节奏。","温柔半两，从容一生。","把情绪调成静音模式。","人间烟火，最抚凡人心。","日子平淡，好在我喜欢。","把普通的日子过得浪漫些。","生活明朗，万物可爱。","心有山海，静而无边。","时光不语，静待花开。"],
+  daisy:["风把烦恼吹软，把日子吹甜。","小美好藏在平凡里。","日子清透，世事温柔。","温柔是藏在生活里的光。","细碎日常，皆是浪漫。","把日子过成自己喜欢的样子。","生活点滴，温柔治愈。","慢下来，感受生活的温柔。","温柔半两，换我半世清欢。","风很温柔，花很浪漫。"],
+  sunflower:["向着光，成为光。","今日份开心，已签收。","生活明朗，万物可爱。","向阳而生，温柔生长。","把烦恼交给阳光，把快乐留给自己。","心里有光，眼里有笑。","温暖是生活的底色。","日子滚烫，快乐又明亮。","做自己的小太阳，温暖自己也照亮别人。","阳光正好，微风不燥，一切都刚刚好。"],
+  iris:["允许自己暂时不开心。","有些心情，只适合收藏。","风会带走所有沉重。","情绪柔软，心事有处安放。","温柔自愈，与世界和解。","把情绪藏进夜里，天亮继续微笑。","有些路，只能一个人走。","心事如尘，随风而散。","允许一切发生，也允许自己不完美。","沉默是最好的治愈。"],
+  lily:["安静不语，也是温柔。","心安静，世界就安静。","不言不语，自在欢喜。","简约生活，干净欢喜。","在安静里，遇见自己。","心若浮沉，浅笑安然。","独处是一个人的清欢。","安静，是最顶级的自由。","于无声处，听岁月温柔。","清欢自守，岁月安然。"],
+  chamomile:["慢慢自愈，慢慢成长。","与过去和解，向未来奔赴。","历经山河，依然值得。","成长是温柔的自我接纳。","每一步，都是向美好靠近。","在时光里沉淀，在岁月里成长。","自愈是人生的必修课。","慢慢变好，是给自己最好的礼物。","生活给我苦难，我报之以歌。","历经千帆，归来仍是少年。"],
+  shechu:[
+    "上班上班，上到灵魂失联。","工资未到，精神先倒。","上班是为了生活，不是为了升华。","别卷了，我只想准时下班。","我的精神状态：很好（已疯）。","上班只是一场大型角色扮演。","钱不钱的无所谓，主要是热爱加班（不是）。",
+    "上班的意义：为了下班。","摸鱼是第一生产力。","我的职场人设：情绪稳定的疯子。","上班哪有不疯的，硬撑罢了。","工资是我应得的，也是我应得的。","职场生存法则：少说话，多摸鱼。","别问，问就是在努力工作（摸鱼）。","上班使我快乐，快乐个屁。","我的理想：不上班也有钱。"
+  ]
+};
+
+let currentTag='all';
+const sentenceEl=document.getElementById('sentence');
+
+function rand(){
+  const list=sentences[currentTag];
+  sentenceEl.innerText=list[Math.floor(Math.random()*list.length)];
+}
+
+document.querySelectorAll('.tag').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tag').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active'); currentTag=t.dataset.tag; rand();
+  }
+})
+
+document.getElementById('random').onclick=rand;
+
+document.getElementById('copy').onclick=()=>{
+  navigator.clipboard.writeText(sentenceEl.innerText);
+  showToast("已复制");
+}
+
+document.getElementById('star').onclick=()=>{
+  const v=sentenceEl.innerText;
+  let arr=JSON.parse(localStorage.getItem('coll'))||[];
+  if(!arr.includes(v))arr.push(v);
+  localStorage.setItem('coll',JSON.stringify(arr));
+  renderColl(); showToast("已收藏");
+}
+
+function renderColl(){
+  const c=document.getElementById('collection');
+  const arr=JSON.parse(localStorage.getItem('coll'))||[];
+  c.innerHTML=arr.map(i=>`<div class="coll-item body-font">• ${i}</div>`).join('');
+}
+
+function showToast(text){
+  const t=document.getElementById('toast');
+  t.innerText=text; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1500);
+}
+
+// ===================== 本地智能联想文案核心（扩容版 + 古言）=====================
+function generateByLocalAI(){
+  const input = document.getElementById('search').value.trim();
+  const style = document.getElementById('ancientStyle').value;
+  if(!input){ showToast("请输入关键词"); return; }
+
+  // 现代文案模板库（大幅扩容）
+  const modernGroups = [
+    {
+      keys:["火锅","串串","烤肉","吃饭","夜宵","美食"],
+      list:[
+        `人间烟火气，最抚凡人心，今天和${input}好好治愈一下。`,`生活无解，来顿${input}解解乏。`,`快乐很简单，一顿${input}就够了。`,
+        `没有什么是一顿${input}解决不了的，如果有，就两顿。`,`${input}下肚，烦恼全无。`,`烟火人间，${input}最暖。`,
+        `把坏心情都煮进${input}里，咕嘟咕嘟冒成快乐。`,`今日份快乐：${input}自由。`,`${input}是疲惫生活里的温柔解药。`
+      ]
+    },
+    {
+      keys:["兄弟","朋友","好朋友","闺蜜","哥们","伙伴","知己"],
+      list:[
+        `庆幸人生路上，有${input}并肩同行。`,`最好的时光，是和${input}一起浪费的时光。`,`${input}在场，快乐就不会缺席。`,
+        `朋友是自己选的家人，${input}是我最珍贵的宝藏。`,`山河不足重，重在遇${input}。`,`和${input}在一起，连沉默都舒服。`,
+        `岁岁年年，庆幸有${input}相伴。`,`${input}是疲惫生活里的英雄梦想。`,`朋友是疲惫生活里的糖，${input}是最甜的那一颗。`
+      ]
+    },
+    {
+      keys:["喝酒","小酌","微醺","酒","醉"],
+      list:[
+        `日子平淡，好在${input}很暖。`,`${input}一杯，烦恼全飞。`,`生活有点苦，${input}来弥补。`,
+        `微醺是结束一天最好的方式，${input}是最好的催化剂。`,`酒逢知己千杯少，${input}在场就好。`,`把心事都倒进${input}里，一饮而尽。`,
+        `${input}微醺，月色温柔。`,`人生得意须尽欢，莫使金樽空对${input}。`,`${input}是成年人的情绪出口。`
+      ]
+    },
+    {
+      keys:["风筝","风","天空","飞翔","自由"],
+      list:[
+        `愿我们像${input}一样，自由且热烈。`,`借着${input}，去拥抱风与自由。`,`把烦恼放飞，像${input}一样轻盈。`,
+        `${input}在风里，我在人间。`,`风是自由的，${input}也是。`,`把梦想系在${input}上，让它飞向远方。`,
+        `${input}挣脱了线，才懂什么是自由。`,`风过无痕，${input}有梦。`,`我是风，你是${input}，我们一起流浪。`
+      ]
+    },
+    {
+      keys:["操场","校园","放学","下课","青春","少年"],
+      list:[
+        `${input}的风，是青春最温柔的诗。`,`怀念${input}上，那些无忧无虑的傍晚。`,`${input}藏着我们一整个青春。`,
+        `夕阳落在${input}上，少年的影子被拉得很长。`,`${input}的晚风，吹走了多少烦恼。`,`我们的青春，都留在了${input}。`,
+        `${input}上的奔跑，是青春最热烈的模样。`,`下课铃响，${input}上满是欢声笑语。`,`${input}是青春的代名词。`
+      ]
+    },
+    {
+      keys:["健身","运动","跑步","撸铁","锻炼","自律"],
+      list:[
+        `每一次${input}，都是对生活的反击。`,`坚持${input}，成为更好的自己。`,`汗水不会骗人，${input}值得。`,
+        `${input}很苦，但结果很甜。`,`自律的${input}，藏着未来的惊喜。`,`把时间花在${input}上，身体会给你答案。`,
+        `${input}是最好的护肤方式。`,`累了就去${input}，汗水会带走所有疲惫。`,`${input}让我更爱自己。`
+      ]
+    },
+    {
+      keys:["猫","猫咪","小猫","主子","喵星人"],
+      list:[
+        `被${input}治愈的每一天。`,`生活再累，看到${input}就软了。`,`${input}是人间温柔本身。`,
+        `${input}的呼噜声，是最好的助眠曲。`,`撸${input}是人生一大乐事。`,`${input}是我生活里的小太阳。`,
+        `有${input}在，家就有了温度。`,`${input}的眼睛里，藏着整个宇宙。`,`我负责赚钱养家，${input}负责貌美如花。`
+      ]
+    },
+    {
+      keys:["上学","上课","考试","学习","作业","读书"],
+      list:[
+        `认真${input}，未来会闪闪发光。`,`${input}很苦，但结果很甜。`,`慢慢努力，在${input}里沉淀自己。`,
+        `书山有路勤为径，${input}无涯苦作舟。`,`今天的${input}，是为了明天的自由。`,`${input}是通往未来的桥。`,
+        `别在该${input}的年纪选择安逸。`,`${input}是最好的投资。`,`我在${input}里，寻找人生的答案。`
+      ]
+    },
+    {
+      keys:["恋爱","喜欢","心动","官宣","对象","男朋友","女朋友","告白","爱情"],
+      list:[
+        `很高兴，我的故事里有${input}了。`,`遇见${input}，才算完整。`,`正式官宣：往后余生，是${input}。`,
+        `${input}是我藏在心底的欢喜。`,`心动不止一次，是每次见到${input}。`,`我攒了好久的温柔，都给了${input}。`,
+        `世界那么大，我只想要${input}。`,`${input}是我疲惫生活里的英雄梦想。`,`和${input}在一起，连空气都是甜的。`
+      ]
+    },
+    {
+      keys:["青春","少年","年少","时光","回忆"],
+      list:[
+        `${input}很短，回忆很长。`,`热烈的${input}，永远滚烫。`,`${input}无解，我们永远热烈。`,
+        `${input}是一场盛大的遇见。`,`${input}的风，吹过了整个夏天。`,`${input}是回不去的旧时光。`,
+        `我们的${input}，没有遗憾。`,`${input}里的我们，勇敢且热烈。`,`${input}是人生最美好的篇章。`
+      ]
+    },
+    {
+      keys:["领导","上级","老板","同事","职场","工作","上班","上下级"],
+      list:[
+        `认真工作，礼貌相处，稳住${input}关系。`,`职场清醒，不内耗，善待${input}。`,`做好自己，尊重${input}，稳步前行。`,
+        `${input}是同事，不是朋友。`,`职场生存法则：少说话，多做事。`,`对${input}保持敬畏，对自己保持清醒。`,
+        `工作是工作，生活是生活，别把${input}当家人。`,`${input}只是过客，自己才是主角。`,`职场没有情绪，只有解决方案。`
+      ]
+    },
+    {
+      keys:["月亮","星星","夜晚","夜色","月光"],
+      list:[
+        `今晚的${input}，温柔得像你的眼睛。`,`${input}落在人间，我落在你眼里。`,`把心事说给${input}听。`,
+        `${input}是黑夜的温柔，你是我的温柔。`,`${input}温柔了岁月，你惊艳了时光。`,`我在${input}下，想你。`,
+        `${input}是人间的浪漫，你是我的浪漫。`,`${input}千里，共此良夜。`,`${input}是我写给你的情书。`
+      ]
+    },
+    {
+      keys:["江南","烟雨","水乡","小桥","流水"],
+      list:[
+        `烟雨${input}，诗意人间。`,`${input}的雨，下了一整个春天。`,`我在${input}，等一场烟雨。`,
+        `${input}的水，温柔了岁月。`,`${input}是一幅画，我是画中人。`,`烟雨${input}，醉了流年。`,
+        `我打${input}走过，那等在季节里的容颜如莲花的开落。`,`${input}的风，带着诗意的温柔。`,`${input}是我梦里的故乡。`
+      ]
+    },
+    {
+      keys:["相思","思念","想念","牵挂","离别"],
+      list:[
+        `${input}是一场漫长的等待。`,`我在想${input}，${input}在想我吗？`,`${input}是藏在心底的秘密。`,
+        `山高路远，${input}是我唯一的牵挂。`,`${input}如酒，越陈越浓。`,`我把${input}，写进了每一个夜晚。`,
+        `${input}是一场没有终点的旅行。`,`${input}是我戒不掉的瘾。`,`${input}是人间最苦的糖。`
+      ]
+    }
+  ];
+
+  // 古言文案模板库
+  const ancientGroups = {
+    five: {
+      keys:["火锅","朋友","喝酒","健身","猫","上学","恋爱","青春","职场","月亮","江南","相思"],
+      list:[
+        `烟火暖${input}，清欢慰平生。`,`${input}一杯酒，江湖万里行。`,`${input}卧榻侧，温柔解千愁。`,
+        `${input}逐风去，自由入心怀。`,`${input}照长夜，相思寄明月。`,`烟雨${input}，诗意满人间。`,
+        `${input}书壮志，少年正当时。`,`${input}藏心事，不语也情深。`,`${input}伴朝夕，岁月共安稳。`
+      ]
+    },
+    seven: {
+      keys:["火锅","朋友","喝酒","健身","猫","上学","恋爱","青春","职场","月亮","江南","相思"],
+      list:[
+        `人间烟火暖${input}，半盏清欢慰平生。`,`${input}一杯邀明月，江湖万里共清辉。`,`${input}卧榻听风雨，温柔解却世间愁。`,
+        `${input}逐风追云去，自在逍遥入心怀。`,`${input}清辉照长夜，相思一缕寄明月。`,`烟雨${input}笼轻雾，诗意满纸入画图。`,
+        `${input}少年书壮志，不负韶华趁今朝。`,`${input}心事藏眉底，不语情深自可知。`,`${input}相伴朝与暮，岁月安稳共白头。`
+      ]
+    },
+    sentence: {
+      keys:["火锅","朋友","喝酒","健身","猫","上学","恋爱","青春","职场","月亮","江南","相思"],
+      list:[
+        `烟火${input}，暖了人间，醉了流年。`,`${input}一杯，敬过往，敬自由。`,`${input}卧侧，温柔了岁月，惊艳了时光。`,
+        `风里${input}，逐云去，不问归期。`,`${input}清辉，照我心事，寄与天涯。`,`烟雨${input}，水墨江南，诗意绵绵。`,
+        `少年${input}，意气风发，不负韶华。`,`${input}藏心，欲说还休，情深意重。`,`${input}相伴，朝朝暮暮，岁岁年年。`
+      ]
+    },
+    huajian: {
+      keys:["火锅","朋友","喝酒","健身","猫","上学","恋爱","青春","职场","月亮","江南","相思"],
+      list:[
+        `炉边${input}，烟火漫卷，暖了人间清欢。`,`${input}浅酌，醉里挑灯，笑看江湖风云。`,`${input}卧榻，软语呢喃，解却眉间愁绪。`,
+        `风牵${input}，逐云而去，自在逍遥人间。`,`${input}清辉，洒落窗前，相思寄与明月。`,`烟雨${input}，雾笼轻舟，诗意漫过桥头。`,
+        `少年${input}，意气飞扬，不负韶华时光。`,`${input}藏心，欲语还休，情深意重难诉。`,`${input}相伴，朝暮相依，岁岁安稳流年。`
+      ]
+    }
+  };
+
+  let result = '';
+  if(style === 'modern'){
+    // 现代文案生成
+    let match = null;
+    for(let g of modernGroups){
+      if(g.keys.some(k=>input.includes(k))){
+        match = g.list;
+        break;
+      }
+    }
+    if(!match){
+      match = [
+        `因为${input}，今天变得格外特别。`,`记录关于${input}的小美好。`,`生活的温柔，都藏在${input}里。`,
+        `${input}是我生活里的小确幸。`,`把${input}的温柔，都写进日子里。`,`${input}是人间值得的理由。`
+      ];
+    }
+    result = match[Math.floor(Math.random()*match.length)].replace(/\${input}/g, input);
+  }else{
+    // 古言文案生成
+    const group = ancientGroups[style];
+    let match = group.list;
+    result = match[Math.floor(Math.random()*match.length)].replace(/\${input}/g, input);
+  }
+
+  sentenceEl.innerText = result;
+  showToast("AI 生成成功 ✨");
+}
+
+document.getElementById('aiGenerate').onclick = generateByLocalAI;
+renderColl();
+</script>
+</body>
+</html>
